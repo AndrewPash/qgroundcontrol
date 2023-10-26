@@ -515,10 +515,31 @@ Item {
             }
         }
     }
+    Component{
+        id:         white_rectangle
+        Rectangle{
+            id:         rectangle
+            width:      mainWindow.width
+            height:     mainWindow.height
+            color:      qgcPal.Light
+            visible:    true
+            Button{
+                x:                   mainWindow.width/2
+                y:                   mainWindow.height/2
+                onClicked:           rectangle.destroy()
+                contentItem: Text{
+                    text:                qsTr("Close")
+                    color:               qgcPal.brandingBlue
+                }
+                background: Rectangle{
+                    color:          rectangle.color
+                }
+            }
+        }
+    }
 
     Component {
         id: toolbarComponent
-
         PlanEditToolbar {
             anchors.horizontalCenter:       mapControl.left
             anchors.horizontalCenterOffset: mapControl.centerViewport.left + (mapControl.centerViewport.width / 2)
@@ -562,6 +583,15 @@ Item {
                 text:               qsTr("Load KML/SHP...")
                 onClicked:          kmlOrSHPLoadDialog.openForLoad()
                 visible:            !mapPolygon.traceMode
+            }
+
+            QGCButton {
+                _horizontalPadding: 0
+                visible:            !mapPolygon.traceMode
+                onClicked:          white_rectangle.createObject(mainWindow)
+                text:               qsTr("      AR mode")
+                iconSource:         "/res/ARcube.svg"
+                iconLeft:           true
             }
         }
     }
